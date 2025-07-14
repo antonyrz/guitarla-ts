@@ -6,3 +6,9 @@ export type Guitar = {
     description: string;
     price: number
 }
+
+export type CartItem = Guitar &{
+    quantity: number;
+}
+
+export type GuitarId = Guitar['id'];
