@@ -1,24 +1,26 @@
 import type { CartItem, Guitar } from "../types"
+import { CartActions } from "../reducers/cart-reducer"
+import { Dispatch } from "react"
 
 type HeaderProps = {
     cart: CartItem[]
     removeFromCart: (id: Guitar['id'] ) => void
     decreaseQuantity: (id: Guitar['id'] ) => void
     increaseQuantity: (id: Guitar['id'] ) => void
-    clearCart: () => void
-    isEmpty: boolean
     cartTotal: number
+    dispatch : Dispatch<CartActions>
+    
 }
 
 export default function Header({
         cart, 
+        dispatch,
         removeFromCart, 
         decreaseQuantity, 
         increaseQuantity, 
-        clearCart,
-        isEmpty, 
         cartTotal
     } : HeaderProps ) {
+
     return (
         <header className="py-5 header">
             <div className="container-xl">
@@ -35,7 +37,7 @@ export default function Header({
                             <img className="img-fluid" src="/img/carrito.png" alt="imagen carrito" />
 
                             <div id="carrito" className="bg-white p-3">
-                                {isEmpty ? (
+                                {cart.length === 0 ? (
                                     <p className="text-center">El carrito esta vacio</p>
                                 ) : (
                                 <>
@@ -100,7 +102,7 @@ export default function Header({
 
                                 <button 
                                     className="btn btn-dark w-100 mt-3 p-2"
-                                    onClick={clearCart}
+                                    onClick={() => dispatch({type: 'clear-cart'})}
                                 >Vaciar Carrito</button>
                             </div>
                         </div>

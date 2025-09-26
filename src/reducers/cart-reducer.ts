@@ -6,6 +6,7 @@ export type CartActions =
     { type: 'remove-from-cart', payload: {id: Guitar['id']}} |
     { type: 'decrease-quantity', payload: {id: Guitar['id']}} |
     { type: 'increase-quantity', payload: {id: Guitar['id']}} |
+    { type: 'cart-is-empty'} |
     { type: 'clear-cart'};
 
 export type CartState = {
@@ -33,22 +34,13 @@ export const cartReducer = (
 
             const itemExists = state.cart.find(guitar => guitar.id === ItemPayload.id);
 
-            console.log(itemExists);
-
             if(itemExists){
                 // El item existe en el carrito
                 updatedCart = state.cart.map(item => {
 
-                    if(item.id === ItemPayload.id){
+                    if(item.id === ItemPayload.id && item.quantity < MAX_ITEMS) return {...item, quantity: item.quantity++}
 
-                        if(item.quantity < MAX_ITEMS) return {...item, quantity: item.quantity++};
-
-                        // El item tiene mas de 5 en cantidad
-                        return item;
-
-                    }else{
-                        return item;
-                    }
+                    return item;
                 });
 
             }else{
