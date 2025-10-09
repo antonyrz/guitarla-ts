@@ -1,10 +1,9 @@
 import type { CartItem } from "../types"
 import { CartActions } from "../reducers/cart-reducer"
-import { Dispatch } from "react"
+import { Dispatch, useMemo } from "react"
 
 type HeaderProps = {
-    cart: CartItem[]
-    cartTotal: number
+    cart: CartItem[],
     dispatch : Dispatch<CartActions>
     
 }
@@ -12,8 +11,9 @@ type HeaderProps = {
 export default function Header({
         cart, 
         dispatch,
-        cartTotal
     } : HeaderProps ) {
+
+    const cartTotal = useMemo(() => cart.reduce((total, item) => total + (item.quantity * item.price), 0), [cart]);
 
     return (
         <header className="py-5 header">

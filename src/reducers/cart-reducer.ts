@@ -11,12 +11,16 @@ export type CartActions =
 
 export type CartState = {
     data: Guitar[],
-    cart: CartItem[]
+    cart: CartItem[],
 };
+
+const localeStorageCart = localStorage.getItem('cart');
+
+console.log(localeStorageCart);
 
 export const initialState : CartState = {
     data: db,
-    cart: [],
+    cart: localeStorageCart ? JSON.parse(localeStorageCart) : [],
 };
 
 const MIN_ITEMS = 1
@@ -49,7 +53,8 @@ export const cartReducer = (
                 const newItem : CartItem = {...ItemPayload, quantity: 1};
                 updatedCart = [...state.cart, newItem]
             }
-                
+
+
             return{
                 ...state,
                 cart: updatedCart,
@@ -84,9 +89,11 @@ export const cartReducer = (
                 }
             });
 
+
+
             return{
                 ...state,
-                cart: updatedCart
+                cart: updatedCart,
             }
         }
 
@@ -105,9 +112,10 @@ export const cartReducer = (
                 }
             });
 
+
             return{
                 ...state,
-                cart: updatedCart
+                cart: updatedCart,
             }
         }
 
